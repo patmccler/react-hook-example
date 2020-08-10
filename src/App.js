@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import UserTable from './tables/UserTable'
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
         </div>
         <div className="flex-large">
           <h2>View Users</h2>
-          <UserTable useres={users} />
+          <UserTable users={users} />
         </div>
       </div>
     </div>
