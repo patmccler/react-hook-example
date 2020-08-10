@@ -1,18 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import UserTable from './tables/UserTable'
 
 function App() {
+  const usersData = [
+    {id: 1, name: 'Tania', username: 'floppydiskette'},
+    {id: 2, name: 'Craig', username: 'siliconeidolon'},
+    {id: 3, name: 'Ben', username: 'benisphere'},
+  ]
+
+  const [users, setUsers] = useState(usersData)
+
   return (
     <div className="container">
       <h1>Pat's CRUD app with hooks</h1>
       <div className="flex-row">
-      <div className="flex-large">
-        <h2>Add User</h2>
-      </div>
-      <div className="flex-large">
-        <h2>View Users</h2>
-      </div>
+        <div className="flex-large">
+          <h2>Add User</h2>
+        </div>
+        <div className="flex-large">
+          <h2>View Users</h2>
+          <UserTable useres={users} />
+        </div>
       </div>
     </div>
   );
