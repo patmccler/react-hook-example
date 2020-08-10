@@ -39,7 +39,14 @@ const EditUserForm = (props) => {
         value={user.username}
         onChange={handleInputChange}
       />
-      <button>Update user</button>
+      <label>Spirit Animal</label>
+      <input
+        type="text"
+        name="spiritAnimal"
+        value={user.spiritAnimal}
+        onChange={handleInputChange}
+      />
+      <button>Update User</button>
       <button
         onClick={handleCancelClick}
         className="button muted-button"

@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import UserTable from './tables/UserTable'
+import UserTable from './tables/UserTable.js'
 import AddUserForm from './forms/AddUserForm.js'
-import EditUserForm from './forms/EditUserForm'
+import EditUserForm from './forms/EditUserForm.js'
 
 function App() {
   const usersData = [
-    {id: 1, name: 'Tania', username: 'floppydiskette'},
-    {id: 2, name: 'Craig', username: 'siliconeidolon'},
-    {id: 3, name: 'Ben', username: 'benisphere'},
+    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear"},
+    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala"},
+    {id: 3, name: 'Ben', username: 'benisphere', spiritAnimal: "Camel"},
   ]
 
   const [users, setUsers] = useState(usersData)
@@ -19,7 +19,7 @@ function App() {
   const editRow = (user) => {
     setEditing(true)
 
-    setCurrentUser({ id: user.id, name: user.name, username: user.username })
+    setCurrentUser({ id: user.id, name: user.name, username: user.username, spiritAnimal: user.spiritAnimal })
   }
 
   const addUser = (user) => {
