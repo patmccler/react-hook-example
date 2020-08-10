@@ -38,6 +38,10 @@ function App() {
     setUsers(users.map((user) => (user.id === id ? updatedUser : user)))
   }
 
+  const deleteUsers = () => {
+    setUsers([])
+    setEditing(false)
+  }
   return (
     <div className="container">
       <h1>Pat's CRUD app with hooks</h1>
@@ -62,6 +66,11 @@ function App() {
         <div className="flex-large">
           <h2>View Users</h2>
           <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
+          <button
+            className="button muted-button"
+            onClick={deleteUsers}>
+            {'Delete All Users'}
+          </button>
         </div>
       </div>
     </div>
