@@ -6,9 +6,9 @@ import FriendsDisplay from "./FriendsDisplay"
 
 function App() {
   const usersData = [
-    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear", friendIds: [2,3]},
-    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala", friendIds: [3]},
-    {id: 3, name: 'Ben', username: 'benisphere', spiritAnimal: "Camel", friendIds: [1,2]},
+    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear", friendIds: []},
+    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala", friendIds: []},
+    {id: 3, name: 'Ben', username: 'benisphere', spiritAnimal: "Camel", friendIds: []},
   ]
 
   const [users, setUsers] = useState(usersData)
@@ -47,6 +47,14 @@ function App() {
   const getFriends = (user) => {
     return user.friendIds.map(id => users.find(user => user.id === id))
   }
+
+  const addFriend = currentUser => newFriend => {
+    console.log(currentUser)
+    console.log(newFriend)
+    currentUser.friendIds.push(newFriend.id)
+    newFriend.friendIds.push(currentUser.id)
+  }
+
   return (
     <div className="container">
       <h1>Pat's CRUD app with hooks</h1>
@@ -78,9 +86,7 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="flex-row">
-        <FriendsDisplay users={users} getFriends={getFriends} />
-      </div>
+      <FriendsDisplay users={users} getFriends={getFriends} newFriendForCurrent={addFriend} />
     </div>
   );
 }
