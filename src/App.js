@@ -6,8 +6,8 @@ import FriendsDisplay from "./FriendsDisplay"
 
 function App() {
   const usersData = [
-    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear", friendIds: []},
-    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala", friendIds: []},
+    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear", friendIds: [2]},
+    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala", friendIds: [1]},
     {id: 3, name: 'Ben', username: 'benisphere', spiritAnimal: "Camel", friendIds: []},
   ]
 
@@ -20,7 +20,12 @@ function App() {
   const editRow = (user) => {
     setEditing(true)
 
-    setCurrentUser({ id: user.id, name: user.name, username: user.username, spiritAnimal: user.spiritAnimal })
+    setCurrentUser({ id: user.id,
+                     name: user.name,
+                     username: user.username,
+                     spiritAnimal: user.spiritAnimal,
+                     friendIds: user.friendIds }
+    )
   }
 
   const addUser = (user) => {
@@ -42,17 +47,6 @@ function App() {
   const deleteUsers = () => {
     setUsers([])
     setEditing(false)
-  }
-
-  const getFriends = (user) => {
-    return user.friendIds.map(id => users.find(user => user.id === id))
-  }
-
-  const addFriend = currentUser => newFriend => {
-    console.log(currentUser)
-    console.log(newFriend)
-    currentUser.friendIds.push(newFriend.id)
-    newFriend.friendIds.push(currentUser.id)
   }
 
   return (
@@ -86,7 +80,7 @@ function App() {
           </button>
         </div>
       </div>
-      <FriendsDisplay users={users} getFriends={getFriends} newFriendForCurrent={addFriend} />
+      <FriendsDisplay users={users}/>
     </div>
   );
 }

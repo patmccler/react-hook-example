@@ -16,7 +16,7 @@ function UserSelector({selectUser, users, initial = false}) {
   return(
     <form>
       <select value={selected} onChange={handleChange}>
-        <option disabled value="false"> -- select an option -- </option>
+        <option value="false"> -- select an option -- </option>
         {
           users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)
         }
