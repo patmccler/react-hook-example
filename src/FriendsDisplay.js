@@ -18,12 +18,6 @@ function FriendsDisplay({users}) {
     setFriendableUsers(getFriendableUsers(currentUser))
   }
 
-  // const changeUser = user => {
-  //   setCurrentUser(user)
-  //   setCurrentUserFriends(getFriends())
-  //   setFriendableUsers(getFriendableUsers())
-  // }
-
   const changeUser = useCallback((user) => {
     console.log(user)
     setCurrentUser(user)
@@ -32,10 +26,6 @@ function FriendsDisplay({users}) {
     console.log(currentUserFriends)
   })
 
-  // const friendableUsers = useMemo(() => getFriendableUsers(currentUser), [currentUser, currentUser.friendIds.length, getFriendableUsers])
-  // const currentUserFriends = useMemo(() => currentUser.friendIds.map(id => users.find(user => user.id === id))
-  //                                     ,[currentUser, currentUser.friendIds.length, users]
-  //                                   )
   return (
     <>
       <div className="flex-row">
