@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import UserTable from './tables/UserTable.js'
 import AddUserForm from './forms/AddUserForm.js'
 import EditUserForm from './forms/EditUserForm.js'
@@ -28,10 +28,10 @@ function App() {
     )
   }
 
-  const addUser = (user) => {
+  const addUser = useCallback((user) => {
     user.id = users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1
     setUsers([...users, user])
-  }
+  }, [users])
 
   const deleteUser = (id) => {
     setUsers(users.filter((user) => user.id !== id))

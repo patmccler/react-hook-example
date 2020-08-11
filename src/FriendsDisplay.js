@@ -1,37 +1,48 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import FriendsTable from './tables/FriendsTable'
 import UserSelector from './forms/UserSelector'
 
 function FriendsDisplay({users}) {
 
-  const getFriendableUsers = user => users.filter(u => (u !== user) && !user.friendIds.includes(u.id))
+  const getFriendableUsers = user => users.filter(u => (u.id !== user.id) && !user.friendIds.includes(u.id))
   const getFriends = user => user.friendIds.map(id => users.find(user => user.id === id))
 
-  const [currentUser, setCurrentUser] = useState(users[0])
-  const [currentUserFriends, setCurrentUserFriends] = useState(getFriends(currentUser))
-  const [friendableUsers, setFriendableUsers] = useState(getFriendableUsers(currentUser))
+  const [currentUser, setCurrentUser] = useState({...users[0]})
+  // const [currentUserFriends, setCurrentUserFriends] = useState(getFriends(currentUser))
+  // const [friendableUsers, setFriendableUsers] = useState(getFriendableUsers(currentUser))
 
-  const addNewFriend = (newFriend) => {
+  // const syncFriendData = useCallback((user = currentUser) => {
+  //     console.log(user)
+  //     // setCurrentUserFriends(getFriends(user))
+  //     // setFriendableUsers(getFriendableUsers(user))
+  //   }, [currentUser,getFriendableUsers,getFriends, users]
+  // )
+
+  const addNewFriend = useCallback((newFriend) => {
     currentUser.friendIds.push(newFriend.id)
     newFriend.friendIds.push(currentUser.id)
-    setCurrentUserFriends(getFriends(currentUser))
-    setFriendableUsers(getFriendableUsers(currentUser))
-  }
+    setCurrentUser({...currentUser})
+  }, [currentUser])
+
+  const removeFriendship = useCallback((friendUser) => {
+    currentUser.friendIds.filter(id => id !== friendUser.id)
+    friendUser.friendIds.filter(id => id !== currentUser.id)
+    setCurrentUser({...currentUser})
+  }, [currentUser])
 
   const changeUser = useCallback((user) => {
-    console.log(user)
-    setCurrentUser(user)
-    setCurrentUserFriends(getFriends(user))
-    setFriendableUsers(getFriendableUsers(user))
-    console.log(currentUserFriends)
-  })
+    setCurrentUser(Object.assign({}, user))
+  }, [])
+
+  const currentUserFriends = getFriends(currentUser)
+  const friendableUsers = getFriendableUsers(currentUser)
 
   return (
     <>
       <div className="flex-row">
         <div className="flex-large">
           <h2>Friends</h2>
-            Current user:
+          Current user:
           <UserSelector selectUser={changeUser} users={users} initial={users[0].id}/>
         </div>
         <div className="flex-large">
@@ -41,7 +52,7 @@ function FriendsDisplay({users}) {
         </div>
       </div>
       <div className="flex-row">
-        <FriendsTable user={currentUser} friends={currentUserFriends}/>
+        <FriendsTable user={currentUser} friends={currentUserFriends} removeFriendship={removeFriendship}/>
       </div>
     </>
   )
