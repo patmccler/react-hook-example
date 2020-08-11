@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import FriendsTable from './tables/FriendsTable'
 import UserSelector from './forms/UserSelector'
 
-function FriendsDisplay({users}) {
+function FriendsDisplay({updateUser, users}) {
+  const [currentUserId, setCurrentUserId] = useState(users[0].id)
+  const getCurrentUser = () => users.find(user => user.id === currentUserId)
 
-  const getFriendableUsers = user => users.filter(u => (u.id !== user.id) && !user.friendIds.includes(u.id))
-  const getFriends = user => user.friendIds.map(id => users.find(user => user.id === id))
-
-  const [currentUser, setCurrentUser] = useState({...users[0]})
+  const getFriendableUsers = () => users.filter(u => (u.id !== currentUserId) && !getCurrentUser().friendIds.includes(u.id))
+  const getFriends = () => getCurrentUser().friendIds.map(id => users.find(user => user.id === id))
   // const [currentUserFriends, setCurrentUserFriends] = useState(getFriends(currentUser))
   // const [friendableUsers, setFriendableUsers] = useState(getFriendableUsers(currentUser))
 
@@ -18,24 +18,29 @@ function FriendsDisplay({users}) {
   //   }, [currentUser,getFriendableUsers,getFriends, users]
   // )
 
-  const addNewFriend = useCallback((newFriend) => {
-    currentUser.friendIds.push(newFriend.id)
-    newFriend.friendIds.push(currentUser.id)
-    setCurrentUser({...currentUser})
-  }, [currentUser])
+  const addNewFriend = (newFriend) => {
+    let currentUser = getCurrentUser()
 
-  const removeFriendship = useCallback((friendUser) => {
-    currentUser.friendIds.filter(id => id !== friendUser.id)
-    friendUser.friendIds.filter(id => id !== currentUser.id)
-    setCurrentUser({...currentUser})
-  }, [currentUser])
+    let updatedCurrentUser = {...currentUser, friendIds: [...currentUser.friendIds, newFriend.id]}
+    console.log(currentUser, updatedCurrentUser)
+    let updatedNewFriend = {...newFriend, friendIds: [...newFriend.friendIds, currentUserId]}
+    updateUser(currentUserId, updatedCurrentUser)
+  }
 
-  const changeUser = useCallback((user) => {
-    setCurrentUser(Object.assign({}, user))
-  }, [])
+  const removeFriendship = (friendUser) => {
+    let currentUser = getCurrentUser()
+    currentUser.friendIds = currentUser.friendIds.filter(id => id !== friendUser.id)
+    friendUser.friendIds = friendUser.friendIds.filter(id => id !== currentUser.id)
+  }
 
-  const currentUserFriends = getFriends(currentUser)
-  const friendableUsers = getFriendableUsers(currentUser)
+  const changeUser = (user) => {
+    setCurrentUserId(user.id)
+  }
+
+  const currentUserFriends = getFriends()
+  const friendableUsers = getFriendableUsers()
+
+  let currentUser = getCurrentUser()
 
   return (
     <>

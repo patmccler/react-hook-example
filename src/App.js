@@ -41,7 +41,9 @@ function App() {
   const updateUser = (id, updatedUser) => {
     setEditing(false)
 
-    setUsers(users.map((user) => (user.id === id ? updatedUser : user)))
+    setUsers(users.map((user) => {
+       return(user.id === id ? updatedUser : user)
+    }))
   }
 
   const deleteUsers = () => {
@@ -80,7 +82,7 @@ function App() {
           </button>
         </div>
       </div>
-      <FriendsDisplay users={users}/>
+      <FriendsDisplay updateUser={updateUser} users={users}/>
     </div>
   );
 }

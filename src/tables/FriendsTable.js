@@ -1,7 +1,7 @@
 import React from 'react'
 
 const FriendsTable = (props) => {
-  const handleDeleteButtonClick = (user) => () => props.deleteFriend(user.id)
+  const handleDeleteButtonClick = (user) => () => props.removeFriendship(user)
   return (
     <>
     <h4>{props.user.name}'s Friends</h4>
