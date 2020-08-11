@@ -1,11 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import FriendsTable from './tables/FriendsTable'
 import UserSelector from './forms/UserSelector'
 
 function FriendsDisplay({users, getFriends, newFriendForCurrent}) {
 
   const [currentUser, setCurrentUser] = useState(users[0])
+  const [currentUserFriends, setCurrentUserFriends] = useState(getFriends(currentUser))
   const friendableUsers = () => users.filter(u => (u !== currentUser) && !currentUser.friendIds.includes(u.id))
+
+  const addNewFriend = (newFriend) => {
+    newFriendForCurrent(currentUser)(newFriend)
+    setCurrentUserFriends(getFriends(currentUser))
+  }
 
   return (
     <>
@@ -18,11 +24,11 @@ function FriendsDisplay({users, getFriends, newFriendForCurrent}) {
         <div className="flex-large">
           <h3>New Friends</h3>
           Choose a new friend for {currentUser.name}
-          <UserSelector selectUser={newFriendForCurrent(currentUser)} users={friendableUsers()} />
+          <UserSelector selectUser={addNewFriend} users={friendableUsers()} />
         </div>
       </div>
       <div className="flex-row">
-        <FriendsTable user={currentUser} friends={getFriends(currentUser)}/>
+        <FriendsTable user={currentUser} friends={currentUserFriends}/>
       </div>
     </>
   )
