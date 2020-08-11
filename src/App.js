@@ -23,7 +23,7 @@ function App() {
   }
 
   const addUser = (user) => {
-    user.id = users.length + 1
+    user.id = Math.max(...users.map(user => user.id)) + 1
     setUsers([...users, user])
   }
 

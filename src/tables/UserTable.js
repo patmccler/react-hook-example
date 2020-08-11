@@ -7,6 +7,7 @@ const UserTable = (props) => {
     <table>
       <thead>
         <tr>
+          <th>ID</th>
           <th>Name</th>
           <th>Username</th>
           <th>Spirit Animal</th>
@@ -17,6 +18,7 @@ const UserTable = (props) => {
         {props.users.length > 0 ? (
           props.users.map(user => (
             <tr key={user.id}>
+              <td>{user.id}</td>
               <td>{user.name}</td>
               <td>{user.username}</td>
               <td>{user.spiritAnimal}</td>
