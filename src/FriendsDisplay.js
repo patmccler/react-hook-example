@@ -8,29 +8,17 @@ function FriendsDisplay({updateUser, users}) {
 
   const getFriendableUsers = () => users.filter(u => (u.id !== currentUserId) && !getCurrentUser().friendIds.includes(u.id))
   const getFriends = () => getCurrentUser().friendIds.map(id => users.find(user => user.id === id))
-  // const [currentUserFriends, setCurrentUserFriends] = useState(getFriends(currentUser))
-  // const [friendableUsers, setFriendableUsers] = useState(getFriendableUsers(currentUser))
-
-  // const syncFriendData = useCallback((user = currentUser) => {
-  //     console.log(user)
-  //     // setCurrentUserFriends(getFriends(user))
-  //     // setFriendableUsers(getFriendableUsers(user))
-  //   }, [currentUser,getFriendableUsers,getFriends, users]
-  // )
 
   const addNewFriend = (newFriend) => {
     let currentUser = getCurrentUser()
-
     let updatedCurrentUser = {...currentUser, friendIds: [...currentUser.friendIds, newFriend.id]}
-    console.log(currentUser, updatedCurrentUser)
-    let updatedNewFriend = {...newFriend, friendIds: [...newFriend.friendIds, currentUserId]}
     updateUser(currentUserId, updatedCurrentUser)
   }
 
   const removeFriendship = (friendUser) => {
     let currentUser = getCurrentUser()
     currentUser.friendIds = currentUser.friendIds.filter(id => id !== friendUser.id)
-    friendUser.friendIds = friendUser.friendIds.filter(id => id !== currentUser.id)
+    updateUser(currentUserId, currentUser)
   }
 
   const changeUser = (user) => {
@@ -39,8 +27,7 @@ function FriendsDisplay({updateUser, users}) {
 
   const currentUserFriends = getFriends()
   const friendableUsers = getFriendableUsers()
-
-  let currentUser = getCurrentUser()
+  const currentUser = getCurrentUser()
 
   return (
     <>
