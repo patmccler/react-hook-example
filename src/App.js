@@ -6,9 +6,9 @@ import FriendsDisplay from "./FriendsDisplay"
 
 function App() {
   const usersData = [
-    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear"},
-    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala"},
-    {id: 3, name: 'Ben', username: 'benisphere', spiritAnimal: "Camel"},
+    {id: 1, name: 'Tania', username: 'floppydiskette', spiritAnimal: "Bear", friendIds: [2,3]},
+    {id: 2, name: 'Craig', username: 'siliconeidolon', spiritAnimal: "Koala", friendIds: [3]},
+    {id: 3, name: 'Ben', username: 'benisphere', spiritAnimal: "Camel", friendIds: [1,2]},
   ]
 
   const [users, setUsers] = useState(usersData)
@@ -43,6 +43,10 @@ function App() {
     setUsers([])
     setEditing(false)
   }
+
+  const getFriends = (user) => {
+    return user.friendIds.map(id => users.find(user => user.id === id))
+  }
   return (
     <div className="container">
       <h1>Pat's CRUD app with hooks</h1>
@@ -75,7 +79,7 @@ function App() {
         </div>
       </div>
       <div className="flex-row">
-        <FriendsDisplay users={users} />
+        <FriendsDisplay users={users} getFriends={getFriends} />
       </div>
     </div>
   );
