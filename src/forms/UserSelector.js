@@ -6,8 +6,10 @@ function UserSelector({selectUser, users, initial = false}) {
 
   const handleChange = e => {
     if(e.target.value !== "false") {
-      setSelected(e.target.value)
 
+      let newValue = initial ? e.target.value : false
+
+      setSelected(newValue)
       selectUser(users.find(user => user.id === parseInt(e.target.value)))
     }
 
