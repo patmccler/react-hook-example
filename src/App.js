@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import UserTable from './tables/UserTable.js'
 import AddUserForm from './forms/AddUserForm.js'
 import EditUserForm from './forms/EditUserForm.js'
+import FriendsDisplay from "./FriendsDisplay"
 
 function App() {
   const usersData = [
@@ -72,6 +73,9 @@ function App() {
             {'Delete All Users'}
           </button>
         </div>
+      </div>
+      <div className="flex-row">
+        <FriendsDisplay users={users} />
       </div>
     </div>
   );
