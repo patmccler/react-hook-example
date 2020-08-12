@@ -1,23 +1,14 @@
 import React, {useState} from 'react';
 
-function UserSelector({selectUser, users, initial = false}) {
-
-  let [selected, setSelected] = useState(initial)
-
+function UserSelector({selectUser, users, value = false}) {
   const handleChange = e => {
-    if(e.target.value !== "false") {
-
-      let newValue = initial ? e.target.value : false
-
-      setSelected(newValue)
-      selectUser(users.find(user => user.id === parseInt(e.target.value)))
-    }
-
+    let newValue = e.target.value
+    selectUser(users.find(user => user.id === parseInt(newValue)))
   }
 
   return(
     <form>
-      <select value={selected} onChange={handleChange}>
+      <select value={value} onChange={handleChange}>
         <option value="false"> -- select an option -- </option>
         {
           users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)

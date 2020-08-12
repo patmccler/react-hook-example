@@ -6,17 +6,15 @@ function FriendsDisplay({updateUser, users}) {
   const [currentUserId, setCurrentUserId] = useState(users[0].id)
   const getCurrentUser = () => {
     let user = users.find(user => user.id === currentUserId)
-    console.log(user)
-    if(!user) {
-      console.log(users)
+    if(!user && currentUserId !== 0) {
       user = users[0]
       setCurrentUserId(user.id)
     }
     return user
   }
 
-  const getFriendableUsers = () => users.filter(u => (u.id !== currentUserId) && !getCurrentUser().friendIds.includes(u.id))
-  const getFriends = () => getCurrentUser().friendIds.map(id => users.find(user => user.id === id))
+  const getFriendableUsers = () => users.filter(u => (u.id !== currentUserId) && !getCurrentUser()?.friendIds.includes(u.id))
+  const getFriends = () => getCurrentUser()?.friendIds.map(id => users.find(user => user.id === id))
 
   const addNewFriend = (newFriend) => {
     let currentUser = getCurrentUser()
@@ -31,12 +29,15 @@ function FriendsDisplay({updateUser, users}) {
   }
 
   const changeUser = (user) => {
-    setCurrentUserId(user.id)
+    if(user)
+      setCurrentUserId(user.id)
+    else
+      setCurrentUserId(0)
   }
 
-  const currentUserFriends = getFriends()
-  const friendableUsers = getFriendableUsers()
-  const currentUser = getCurrentUser()
+  let currentUserFriends = getFriends()
+  let friendableUsers = getFriendableUsers() || []
+  let currentUser = getCurrentUser()
 
   return (
     <>
@@ -44,16 +45,27 @@ function FriendsDisplay({updateUser, users}) {
         <div className="flex-large">
           <h2>Friends</h2>
           Current user:
-          <UserSelector selectUser={changeUser} users={users} initial={users[0].id}/>
+          <UserSelector selectUser={changeUser} users={users} value={currentUserId}/>
         </div>
         <div className="flex-large">
           <h3>New Friends</h3>
-          Choose a new friend for {currentUser.name}
-          <UserSelector selectUser={addNewFriend} users={friendableUsers} initial={false} />
+          {(currentUserId > 0) ?
+            (
+              <>
+              Choose a new friend for {currentUser.name}
+              <UserSelector selectUser={addNewFriend} users={friendableUsers} initial={false} />
+              </>
+            ) : (
+              "Choose a User to Give them new friends"
+            )
+          }
         </div>
       </div>
       <div className="flex-row">
-        <FriendsTable user={currentUser} friends={currentUserFriends} removeFriendship={removeFriendship}/>
+        {(currentUserId > 0)
+        ? <FriendsTable user={currentUser} friends={currentUserFriends} removeFriendship={removeFriendship}/>
+        : <div>No User Selected</div>
+        }
       </div>
     </>
   )
