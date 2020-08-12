@@ -34,7 +34,12 @@ function App() {
   }, [users])
 
   const deleteUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id))
+    let newUsers = users.filter((user) => user.id !== id)
+    newUsers = newUsers.map(user => {
+      user.friendIds = user.friendIds.filter(fid => fid !== id)
+      return user
+     })
+    setUsers(newUsers)
     setEditing(false)
   }
 

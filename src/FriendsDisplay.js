@@ -4,7 +4,16 @@ import UserSelector from './forms/UserSelector'
 
 function FriendsDisplay({updateUser, users}) {
   const [currentUserId, setCurrentUserId] = useState(users[0].id)
-  const getCurrentUser = () => users.find(user => user.id === currentUserId)
+  const getCurrentUser = () => {
+    let user = users.find(user => user.id === currentUserId)
+    console.log(user)
+    if(!user) {
+      console.log(users)
+      user = users[0]
+      setCurrentUserId(user.id)
+    }
+    return user
+  }
 
   const getFriendableUsers = () => users.filter(u => (u.id !== currentUserId) && !getCurrentUser().friendIds.includes(u.id))
   const getFriends = () => getCurrentUser().friendIds.map(id => users.find(user => user.id === id))
